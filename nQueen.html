@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<canvas id="myCanvas" width="3000" height="3000" style="border:1px solid #d3d3d3;">
+Your browser does not support the HTML5 canvas tag.</canvas>
+
+<script>
+var c = document.getElementById("myCanvas");
+var ctx = c.getContext("2d");
+
+
+var n = 5;
+
+var size = 50;
+
+var startX = 20;
+var startY = 20;
+
+ctx.beginPath();
+// ctx.rect(20, 20, 150, 100);
+
+
+
+var nQueenPos = [];
+for (var i = 0; i < n; i++) {
+    nQueenPos.push(-1);
+}
+
+var count = 0;
+
+
+function drawＮQueen(){
+    var currStartX = startX;
+    var currStartY = startY + count*n*size + count*startY;
+    for(var i = 0; i < n; i++){
+        for(var j = 0; j < n; j++)
+            ctx.rect(currStartX + i*size, currStartY + j*size, size, size);
+    }
+
+    for (var row = 0; row < n; row++) {
+        var col = nQueenPos[row];
+        ctx.fillRect(currStartX + col*size, currStartY + row*size, size, size);
+    }
+}
+
+
+
+function check(row, col) {
+    for (var prev_row = 0; prev_row < row; prev_row++){
+        var prev_col = nQueenPos[prev_row];
+        if ((prev_row == row) || (prev_col == col) || (Math.abs(prev_row - row) == Math.abs(prev_col - col)))
+            return false;
+    }
+    return true;
+}
+
+function nQueen(row) {
+    for(var col = 0; col < n; col++){
+        if (check(row, col)) {
+            nQueenPos[row] = col;
+            if (row == n - 1){
+                drawＮQueen();
+                count += 1;
+                return;
+            }
+            nQueen(row + 1);
+        }
+    }
+}
+
+nQueen(0);
+
+ctx.stroke();
+
+</script> 
+
+</body>
+</html>
